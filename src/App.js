@@ -1,11 +1,13 @@
-import './App.css';
+import React from 'react'
+import './App.css'
+import Login from './Pages/Login'
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      Harsh  
-    </div>
-  );
+     <>
+     <Login/>
+     </>
+  )
 }
 
-export default App;
+export default App
