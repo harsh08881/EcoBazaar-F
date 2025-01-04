@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useApi from "../../Hooks/useApi";
 import "./LoginRegister.css";
 
 const LoginRegister = () => {
@@ -6,43 +7,33 @@ const LoginRegister = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
+    const [formError, setFormError] = useState("");
+
+    // Use the custom hook
+    const { callApi, loading, error } = useApi(isLogin ? "/user/login" : "/user/register");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!email || !password || (!isLogin && !confirmPassword)) {
-            setError("Please fill in all fields.");
+            setFormError("Please fill in all fields.");
             return;
         }
 
         if (!isLogin && password !== confirmPassword) {
-            setError("Passwords do not match.");
+            setFormError("Passwords do not match.");
             return;
         }
 
-        setError("");
+        setFormError("");
 
-        try {
-            const endpoint = isLogin ? "/api/login" : "/api/register";
-            const response = await fetch(endpoint, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password }),
-            });
+        const payload = { email, password };
 
-            const data = await response.json();
+        const data = await callApi(payload);
 
-            if (response.ok) {
-                console.log(`${isLogin ? "Login" : "Registration"} successful`, data);
-                alert(`${isLogin ? "Login" : "Registration"} successful!`);
-            } else {
-                setError(data.message || `${isLogin ? "Login" : "Registration"} failed.`);
-            }
-        } catch (err) {
-            setError("Something went wrong. Please try again.");
+        if (data) {
+            console.log(`${isLogin ? "Login" : "Registration"} successful`, data);
+            alert(`${isLogin ? "Login" : "Registration"} successful!`);
         }
     };
 
@@ -85,9 +76,10 @@ const LoginRegister = () => {
                         />
                     </div>
                 )}
+                {formError && <p className="auth-error">{formError}</p>}
                 {error && <p className="auth-error">{error}</p>}
-                <button type="submit" className="auth-button">
-                    {isLogin ? "Login" : "Register"}
+                <button type="submit" className="auth-button" disabled={loading}>
+                    {loading ? "Processing..." : isLogin ? "Login" : "Register"}
                 </button>
             </form>
             <p className="auth-toggle">
