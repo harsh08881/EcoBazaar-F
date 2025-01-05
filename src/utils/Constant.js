@@ -1,4 +1,4 @@
-const URL = "http://localhost:5008";
+const URL = "https://eco-bazaar.vercel.app";
 
 
 module.exports = {
