@@ -1,0 +1,87 @@
+/* Styling for the overall container */
+.menu-container {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+  
+  /* Header styling */
+  .menu-container h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Category title */
+  .menu-container h2 {
+    font-size: 1.5rem;
+    color: #444;
+    margin-bottom: 10px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+  }
+  
+  /* Styling for the menu list */
+  .menu-container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  /* Styling for each item in the menu */
+  .menu-container li {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Hover effect on items */
+  .menu-container li:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Item details */
+  .menu-container li div {
+    margin-bottom: 8px;
+  }
+  
+  /* Price styling */
+  .menu-container .price {
+    color: #008000;
+    font-weight: bold;
+  }
+  
+  /* Styling for brand and quantity */
+  .menu-container .brand,
+  .menu-container .quantity {
+    font-style: italic;
+    color: #555;
+  }
+  
+
+  /* Add to Cart Button */
+.add-to-cart-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .add-to-cart-button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Filter Input */
+  .filter-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
