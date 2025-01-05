@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import useApiCall from '../../Hooks/useApis';
 import './Menu.css'; // Importing the CSS file
+import Loader from '../Loader/Loader';
 
 const Menu = () => {
   const [endpoint, setEndpoint] = useState('/user/menu'); // Assuming '/menu' is the endpoint
@@ -9,7 +10,7 @@ const Menu = () => {
   const { data, loading, error } = useApiCall(endpoint, 'GET');
 
   if (loading) {
-    return <p>Loading menu...</p>;
+    return <Loader/>;
   }
 
   if (error) {
@@ -47,7 +48,7 @@ const Menu = () => {
 
       {filteredItems.length > 0 ? (
         filteredItems.map((item, index) => (
-          <div key={index}>
+          <div className='box' key={index}>
             <h2>{item.category}</h2>
             <div>
               <strong>{item.name}</strong>: {item.description}
