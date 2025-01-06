@@ -3,9 +3,8 @@ import Header from '../Components/Header/Header'
 import Footer from '../Components/Footer/Footer'
 import useAuthRedirect from '../Hooks/useAuthRedirect'
 
-
 const Menu = () => {
-       useAuthRedirect();
+    useAuthRedirect();
   return (
     <>
     <Header/>
