@@ -7,6 +7,7 @@ import About from './Pages/About';
 import Contact from './Pages/Contact';
 import NotFound from './Components/Notfound/NotFound';
 import Login from './Pages/Login';
+import Menu from './Pages/Menu';
 
 // Step 3: Define Routes
 const router = createBrowserRouter([
@@ -26,7 +27,10 @@ const router = createBrowserRouter([
     path: '/login',
     element: <Login/>,
   },
-
+  {
+    path: "/menu",
+    element: <Menu />,
+  },
   {
     path: "*",
     element: <NotFound />,
