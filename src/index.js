@@ -7,7 +7,8 @@ import About from './Pages/About';
 import Contact from './Pages/Contact';
 import NotFound from './Components/Notfound/NotFound';
 import Login from './Pages/Login';
-import Menu from './Pages/Menu';
+import Menu from './Pages/Menushow';
+import MenuShow from './Pages/Menushow';
 
 // Step 3: Define Routes
 const router = createBrowserRouter([
@@ -29,7 +30,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/menu",
-    element: <Menu />,
+    element: <MenuShow />,
   },
   {
     path: "*",
