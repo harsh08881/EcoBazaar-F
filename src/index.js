@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App';
 import About from './Pages/About';
 import Contact from './Pages/Contact';
+import NotFound from './Components/Notfound/NotFound';
 
 // Step 3: Define Routes
 const router = createBrowserRouter([
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: '/contact',
     element: <Contact />,
+  },
+  {
+    path: "*",
+    element: <NotFound />,
   },
 ]);
 

@@ -1,0 +1,54 @@
+/* Styles for the Not Found Page */
+.not-found-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 120px); /* Account for header and footer height */
+    background-color: #f9f9f9;
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+  }
+  
+  .not-found-container h1 {
+    font-size: 6rem;
+    color: #ff6b6b;
+    margin-bottom: 20px;
+    animation: pulse 1.5s infinite;
+  }
+  
+  .not-found-container p {
+    font-size: 1.25rem;
+    color: #555;
+    margin: 10px 0;
+  }
+  
+  .not-found-container p:last-of-type {
+    font-style: italic;
+    color: #999;
+  }
+  
+  /* Add some animation for the 404 text */
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.1);
+      opacity: 0.8;
+    }
+  }
+  
+  /* Add responsiveness */
+  @media (max-width: 768px) {
+    .not-found-container h1 {
+      font-size: 4rem;
+    }
+  
+    .not-found-container p {
+      font-size: 1rem;
+    }
+  }
+  
