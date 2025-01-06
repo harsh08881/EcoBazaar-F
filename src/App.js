@@ -1,11 +1,16 @@
 import React from 'react'
 import './App.css'
-import Login from './Pages/Login'
+import Header from './Components/Header/Header'
+import Footer from './Components/Footer/Footer'
+import Home from './Components/Home/Home'
 
 const App = () => {
   return (
      <>
-     <Login/>
+      <Header/>
+     <Home />
+
+      <Footer/>
      </>
   )
 }

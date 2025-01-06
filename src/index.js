@@ -6,6 +6,7 @@ import App from './App';
 import About from './Pages/About';
 import Contact from './Pages/Contact';
 import NotFound from './Components/Notfound/NotFound';
+import Login from './Pages/Login';
 
 // Step 3: Define Routes
 const router = createBrowserRouter([
@@ -20,7 +21,12 @@ const router = createBrowserRouter([
   {
     path: '/contact',
     element: <Contact />,
+  }, 
+  {
+    path: '/login',
+    element: <Login/>,
   },
+
   {
     path: "*",
     element: <NotFound />,
