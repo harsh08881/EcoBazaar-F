@@ -10,7 +10,7 @@ const VideoCall = () => {
 
   useEffect(() => {
     // Initialize socket connection
-    const socket = io("https://vodeo-b.vercel.app"); // Replace with your backend URL
+    const socket = io("https://vodeo-b-production.up.railway.app/"); // Replace with your backend URL
     setSocket(socket);
 
     // Cleanup on component unmount
