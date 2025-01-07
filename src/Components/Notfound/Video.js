@@ -13,6 +13,11 @@ const VideoCall = () => {
     const socket = io("https://vodeo-b-production.up.railway.app/"); // Replace with your backend URL
     setSocket(socket);
 
+    // Listen for new user connections
+    socket.on("user-connected", ({ userId }) => {
+      alert(`User connected: ${userId}`);
+    });
+
     // Cleanup on component unmount
     return () => {
       socket.disconnect();
@@ -20,7 +25,7 @@ const VideoCall = () => {
         peerConnection.close();
       }
     };
-  }, []);
+  }, [peerConnection]);
 
   const createPeerConnection = () => {
     const pc = new RTCPeerConnection({
