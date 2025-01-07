@@ -13,12 +13,17 @@ const VideoCall = () => {
     const socket = io("https://vodeo-b-production.up.railway.app/"); // Replace with your backend URL
     setSocket(socket);
 
-    // Listen for new user connections
-    socket.on("user-connected", ({ userId }) => {
-      alert(`User connected: ${userId}`);
+    // Listen for ICE candidates
+    socket.on("ice-candidate", async ({ candidate }) => {
+      if (candidate && peerConnection) {
+        try {
+          await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+        } catch (error) {
+          console.error("Error adding received ICE candidate", error);
+        }
+      }
     });
 
-    // Cleanup on component unmount
     return () => {
       socket.disconnect();
       if (peerConnection) {
@@ -71,15 +76,9 @@ const VideoCall = () => {
     socket.emit("offer", { offer });
     setCallActive(true);
 
-    // Handle incoming messages
+    // Handle answer from remote user
     socket.on("answer", async ({ answer }) => {
       await pc.setRemoteDescription(new RTCSessionDescription(answer));
-    });
-
-    socket.on("ice-candidate", async ({ candidate }) => {
-      if (candidate) {
-        await pc.addIceCandidate(new RTCIceCandidate(candidate));
-      }
     });
   };
 
@@ -98,7 +97,7 @@ const VideoCall = () => {
 
     setCallActive(true);
 
-    // Handle incoming messages
+    // Handle offer from the caller
     socket.on("offer", async ({ offer }) => {
       await pc.setRemoteDescription(new RTCSessionDescription(offer));
 
@@ -108,23 +107,28 @@ const VideoCall = () => {
       // Send answer back to the server
       socket.emit("answer", { answer });
     });
-
-    socket.on("ice-candidate", async ({ candidate }) => {
-      if (candidate) {
-        await pc.addIceCandidate(new RTCIceCandidate(candidate));
-      }
-    });
   };
 
   return (
     <div>
-      <video ref={localVideoRef} autoPlay muted style={{ width: "300px" }} />
-      <video ref={remoteVideoRef} autoPlay style={{ width: "300px" }} />
+      <div>
+        <video
+          ref={localVideoRef}
+          autoPlay
+          muted
+          style={{ width: "300px", border: "1px solid black" }}
+        />
+        <video
+          ref={remoteVideoRef}
+          autoPlay
+          style={{ width: "300px", border: "1px solid black" }}
+        />
+      </div>
       {!callActive ? (
-        <>
+        <div>
           <button onClick={startCall}>Start Call</button>
           <button onClick={joinCall}>Join Call</button>
-        </>
+        </div>
       ) : (
         <p>Call in progress...</p>
       )}
