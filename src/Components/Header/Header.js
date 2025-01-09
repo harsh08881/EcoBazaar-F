@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
-
+import { checkToken } from "../../utils/auth";
+import useAuthRedirect from "../../Hooks/useAuthRedirect";
 const Header = () => {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -9,7 +10,16 @@ const Header = () => {
     setDarkMode(!darkMode);
     document.body.className = darkMode ? "" : "dark-mode";
   };
+   const checkTokent = checkToken();
 
+
+   const handleLogout = () => {
+    localStorage.removeItem("token"); // Clear the token
+    window.location.reload(); // Reload to reflect changes
+  };
+
+  useAuthRedirect();
+  
   return (
     <header className="header">
       <div className="header-logo">
@@ -33,10 +43,15 @@ const Header = () => {
         <button className="theme-toggle" onClick={toggleTheme}>
           {darkMode ? "Light Mode" : "Dark Mode"}
         </button>
-        {/* Login Button */}
+        {checkTokent ? (
+        <button className="login-btn" onClick={handleLogout}>
+          Logout
+        </button>
+      ) : (
         <Link to="/login">
           <button className="login-btn">Login</button>
         </Link>
+      )}
       </div>
     </header>
   );

@@ -7,7 +7,7 @@ const useAuthRedirect = () => {
   useEffect(() => {
     const token = localStorage.getItem('token'); // Replace 'token' with your actual key name
     if (!token) {
-      navigate('/'); // Redirect to homepage if no token is found
+      navigate('/login'); // Redirect to homepage if no token is found
     }
   }, [navigate]);
 };

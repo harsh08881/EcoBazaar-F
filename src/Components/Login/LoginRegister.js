@@ -9,21 +9,24 @@ const LoginRegister = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [name, setName] = useState("");
+    const [dob, setDob] = useState("");
+    const [number, setNumber] = useState("");
     const [formError, setFormError] = useState("");
 
     const { callApi, loading, error } = useApi(isLogin ? "/user/login" : "/user/register");
-    const navigate = useNavigate(); // Initialize navigation
-    useEffect(()=>{
-        if(checkToken()){
-            navigate('/menu');
-          }
-    });
-   
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if (checkToken()) {
+            navigate("/menu");
+        }
+    }, [navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!email || !password || (!isLogin && !confirmPassword)) {
+        if (!email || !password || (!isLogin && (!confirmPassword || !name || !dob || !number))) {
             setFormError("Please fill in all fields.");
             return;
         }
@@ -35,7 +38,9 @@ const LoginRegister = () => {
 
         setFormError("");
 
-        const payload = { email, password };
+        const payload = isLogin
+            ? { email, password }
+            : { email, password, name, dob, number };
 
         const data = await callApi(payload);
 
@@ -43,7 +48,6 @@ const LoginRegister = () => {
             console.log(`${isLogin ? "Login" : "Registration"} successful`, data);
 
             if (isLogin) {
-                // Save token and navigate
                 localStorage.setItem("authToken", data.token);
                 navigate("/menu"); // Redirect to /menu on successful login
             } else {
@@ -57,6 +61,45 @@ const LoginRegister = () => {
         <div className="auth-container">
             <h2>{isLogin ? "Login" : "Register"}</h2>
             <form onSubmit={handleSubmit} className="auth-form">
+                {!isLogin && (
+                    <>
+                        <div className="auth-input-group">
+                            <label htmlFor="name">Name:</label>
+                            <input
+                                type="text"
+                                id="name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                className="auth-input"
+                                placeholder="Enter your name"
+                                aria-label="Name"
+                            />
+                        </div>
+                        <div className="auth-input-group">
+                            <label htmlFor="number">Phone Number:</label>
+                            <input
+                                type="tel"
+                                id="number"
+                                value={number}
+                                onChange={(e) => setNumber(e.target.value)}
+                                className="auth-input"
+                                placeholder="Enter your phone number"
+                                aria-label="Phone Number"
+                            />
+                        </div>
+                        <div className="auth-input-group">
+                            <label htmlFor="dob">Date of Birth:</label>
+                            <input
+                                type="date"
+                                id="dob"
+                                value={dob}
+                                onChange={(e) => setDob(e.target.value)}
+                                className="auth-input"
+                                aria-label="Date of Birth"
+                            />
+                        </div>
+                    </>
+                )}
                 <div className="auth-input-group">
                     <label htmlFor="email">Email:</label>
                     <input
