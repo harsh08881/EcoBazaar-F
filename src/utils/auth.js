@@ -3,9 +3,14 @@ export const setItem = (key, value) => {
 
 };
   
- export const getItem = (key) => {
-    const value = localStorage.getItem(key);
-    return value ? JSON.parse(value) : null;
+export const getItem = (key) => {
+    try {
+      const value = localStorage.getItem(key);
+      return value;
+    } catch (error) {
+      console.error(`Error parsing JSON from localStorage key "${key}":`, error);
+      return null; // Return null if parsing fails
+    }
   };
 
 
@@ -14,6 +19,10 @@ export const checkToken = () => {
     return token ? true : false;
 };
 
-
+export const logout = () => {
+    localStorage.removeItem('token'); // Remove the token from localStorage
+    console.log('User logged out successfully');
+  };
+  
 
     

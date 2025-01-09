@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // For navigation
 import useApi from "../../Hooks/useApi";
 import "./LoginRegister.css";
+import { checkToken } from "../../utils/auth";
 
 const LoginRegister = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -12,6 +13,12 @@ const LoginRegister = () => {
 
     const { callApi, loading, error } = useApi(isLogin ? "/user/login" : "/user/register");
     const navigate = useNavigate(); // Initialize navigation
+    useEffect(()=>{
+        if(checkToken()){
+            navigate('/menu');
+          }
+    });
+   
 
     const handleSubmit = async (e) => {
         e.preventDefault();

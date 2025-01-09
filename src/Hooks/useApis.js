@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { URL } from '../utils/Constant';
+import { getItem } from '../utils/auth';
 
 const useApiCall = (apiEndpoint, method = 'GET', body = null) => {
   const [data, setData] = useState(null);
@@ -10,19 +11,30 @@ const useApiCall = (apiEndpoint, method = 'GET', body = null) => {
     const fetchData = async () => {
       setLoading(true);
       try {
+        const token = getItem('token'); // Retrieve token from localStorage
+        console.log(token);
         const response = await fetch(`${URL}${apiEndpoint}`, {
           method: method,
           headers: {
-            'Content-Type': 'application/json'
-            // Include any authorization headers here if needed
+            'Content-Type': 'application/json',
+            ...(token && { Authorization: `Bearer ${token}` }),
           },
-          body: method !== 'GET' ? JSON.stringify(body) : null, // Send body if method is not GET
+          body: method !== 'GET' ? JSON.stringify(body) : null, // Include body for non-GET requests
         });
+
+        // Check for HTTP errors
         if (!response.ok) {
-          throw new Error('Failed to fetch data');
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
-        const result = await response.json();
-        setData(result);
+
+        // Check if response is JSON
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const result = await response.json();
+          setData(result);
+        } else {
+          throw new Error('Response is not valid JSON');
+        }
       } catch (err) {
         setError(err.message);
       } finally {
