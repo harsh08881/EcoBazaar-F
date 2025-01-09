@@ -13,7 +13,7 @@ const useApiCall = (apiEndpoint, method = 'GET', body = null) => {
         const response = await fetch(`${URL}${apiEndpoint}`, {
           method: method,
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
             // Include any authorization headers here if needed
           },
           body: method !== 'GET' ? JSON.stringify(body) : null, // Send body if method is not GET

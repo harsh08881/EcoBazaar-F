@@ -33,6 +33,10 @@ const Header = () => {
         <button className="theme-toggle" onClick={toggleTheme}>
           {darkMode ? "Light Mode" : "Dark Mode"}
         </button>
+        {/* Login Button */}
+        <Link to="/login">
+          <button className="login-btn">Login</button>
+        </Link>
       </div>
     </header>
   );

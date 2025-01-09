@@ -68,3 +68,19 @@ body.dark-mode {
         display: none; /* Hide the navigation for smaller screens */
     }
 }
+
+.login-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 15px;
+  }
+  
+  .login-btn:hover {
+    background-color: #0056b3;
+  }
+  
