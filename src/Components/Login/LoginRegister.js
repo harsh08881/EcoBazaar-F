@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // For navigation
 import useApi from "../../Hooks/useApi";
 import "./LoginRegister.css";
 
@@ -9,8 +10,8 @@ const LoginRegister = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [formError, setFormError] = useState("");
 
-    // Use the custom hook
     const { callApi, loading, error } = useApi(isLogin ? "/user/login" : "/user/register");
+    const navigate = useNavigate(); // Initialize navigation
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,7 +34,15 @@ const LoginRegister = () => {
 
         if (data) {
             console.log(`${isLogin ? "Login" : "Registration"} successful`, data);
-            alert(`${isLogin ? "Login" : "Registration"} successful!`);
+
+            if (isLogin) {
+                // Save token and navigate
+                localStorage.setItem("authToken", data.token);
+                navigate("/menu"); // Redirect to /menu on successful login
+            } else {
+                alert("Registration successful! Please log in.");
+                setIsLogin(true); // Switch to login form
+            }
         }
     };
 
@@ -50,6 +59,7 @@ const LoginRegister = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         className="auth-input"
                         placeholder="Enter your email"
+                        aria-label="Email"
                     />
                 </div>
                 <div className="auth-input-group">
@@ -61,6 +71,7 @@ const LoginRegister = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         className="auth-input"
                         placeholder="Enter your password"
+                        aria-label="Password"
                     />
                 </div>
                 {!isLogin && (
@@ -73,6 +84,7 @@ const LoginRegister = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="auth-input"
                             placeholder="Confirm your password"
+                            aria-label="Confirm Password"
                         />
                     </div>
                 )}

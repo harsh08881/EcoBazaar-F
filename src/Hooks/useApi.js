@@ -1,21 +1,22 @@
 import { useState } from "react";
-import { URL } from "../utils/Constant"; // Import the base URL
+import { URL } from "../utils/Constant"; // Base URL
 
-const useApi = (endpoint) => {
+const useApi = (endpoint, method = "POST") => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const callApi = async (payload) => {
+    const callApi = async (payload = {}, customHeaders = {}) => {
         setLoading(true);
         setError(null);
 
         try {
-            const response = await fetch(`${URL}${endpoint}`, { // Use the base URL with endpoint
-                method: "POST",
+            const response = await fetch(`${URL}${endpoint}`, {
+                method,
                 headers: {
                     "Content-Type": "application/json",
+                    ...customHeaders,
                 },
-                body: JSON.stringify(payload),
+                body: method !== "GET" ? JSON.stringify(payload) : null,
             });
 
             const data = await response.json();
@@ -24,9 +25,14 @@ const useApi = (endpoint) => {
                 throw new Error(data.message || "API call failed");
             }
 
+            // Save token to localStorage if the API returns a token
+            if (data.token) {
+                localStorage.setItem("token", data.token);
+            }
+
             return data;
         } catch (err) {
-            setError(err.message);
+            setError(err.message || "Something went wrong");
             return null;
         } finally {
             setLoading(false);
