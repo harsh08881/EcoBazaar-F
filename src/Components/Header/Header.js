@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Header.css";
 import { checkToken } from "../../utils/auth";
-import useAuthRedirect from "../../Hooks/useAuthRedirect";
 const Header = () => {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -18,8 +17,6 @@ const Header = () => {
     window.location.reload(); // Reload to reflect changes
   };
 
-  useAuthRedirect();
-  
   return (
     <header className="header">
       <div className="header-logo">
@@ -38,6 +35,11 @@ const Header = () => {
         <Link to="/contact" className="header-link">
           Contact
         </Link>
+        {checkTokent &&
+          <Link to="/profile" className="header-link">
+          Profile
+        </Link>
+        }
       </nav>
       <div className="header-actions">
         <button className="theme-toggle" onClick={toggleTheme}>
